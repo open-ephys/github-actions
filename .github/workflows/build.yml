@@ -2,7 +2,9 @@ name: Build
  
 on:
   workflow_call:
-
+    secrets: 
+      NUGET_APIKEY:
+        required: true
 env:
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
