@@ -1,0 +1,20 @@
+name: build
+
+# This workflow is an example workflow that can be copied to another repository. It will call the build.yml file in this repo, and go through the steps listed in the README.md of this repo as if the build.yml file had been copied to the other repository. This allows for consistency of actions being run across multiple repositories.
+
+# After copying to a new repository, the name of this file can be changed to anything else. The actual name does not necessarily matter (as long as it ends in *.yml) but will appear in the Actions tab, so the recommendation is to follow the format of this repo and name the copied file to build.yml
+
+# This workflow will run when: 1) any commit is pushed to main, 2) any pull request is opened that will merge to main, and 3) whenever a new release is published.
+on:
+  push:
+    branches: [main] # 1) Generates a package on Github that is a pre-release package, and is typically named X.Y.Z-main-ci00, where X/Y/Z are the semantic version numbers, and ci00 is incremented for each action that is run, guaranteeing a unique package name
+  pull_request:
+    branches: [main] # 2) Does not generate a package, but does check that the semantic version number is increasing, and that the package builds correctly in all matrix configurations (Ubuntu / Windows and Release / Debug)
+  release:
+    types: [published] # 3) Generates a package that is a full release package (X.Y.Z) that is published to Github and NuGet automatically
+
+jobs:
+  build:
+    uses: open-ephys/github-actions/.github/workflows/build.yml@main
+    secrets:
+      NUGET_APIKEY: ${{ secrets.NUGET_APIKEY }} # To add this secret, so that it can be passed to the github-actions repo, navigate to the calling repository -> Settings -> Secrets and Variables -> Actions -> New repository secret -> Name: NUGET_APIKEY, Secret: paste the api key generated on NuGet with the proper permissions
