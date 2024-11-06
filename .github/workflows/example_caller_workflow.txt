@@ -15,6 +15,6 @@ on:
 
 jobs:
   build:
-    uses: open-ephys/github-actions/.github/workflows/build.yml@main
+    uses: open-ephys/github-actions/.github/workflows/build_dotnet_publish_nuget.yml@main
     secrets:
-      NUGET_APIKEY: ${{ secrets.NUGET_APIKEY }} # To add this secret, so that it can be passed to the github-actions repo, navigate to the calling repository -> Settings -> Secrets and Variables -> Actions -> New repository secret -> Name: NUGET_APIKEY, Secret: paste the api key generated on NuGet with the proper permissions
+      NUGET_APIKEY: ${{ secrets.NUGET_APIKEY }} # To add this secret so that it can be passed to the github-actions repo, navigate to the calling repository -> Settings -> Secrets and Variables -> Actions -> New repository secret -> Name: NUGET_APIKEY, Secret: paste the api key generated on NuGet with the proper permissions
