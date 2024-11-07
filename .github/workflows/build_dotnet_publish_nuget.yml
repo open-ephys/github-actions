@@ -1,4 +1,4 @@
-name: Build
+name: Build .NET Project and Publish to NuGet
  
 on:
   workflow_call:
@@ -39,6 +39,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           echo "RELEASE_NAME=$(gh release list -L 1 --json tagName -q .[0].tagName)" >> $GITHUB_OUTPUT
+          
       - name: Checkout last release version
         uses: actions/checkout@v4
         with:
