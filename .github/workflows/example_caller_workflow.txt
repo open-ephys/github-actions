@@ -1,4 +1,4 @@
-name: build
+name: Build and Publish
 
 # This workflow is an example workflow that can be copied to another repository. It will call the build.yml file in this repo, and go through the steps listed in the README.md of this repo as if the build.yml file had been copied to the other repository. This allows for consistency of actions being run across multiple repositories.
 
@@ -14,7 +14,7 @@ on:
     types: [published] # 3) Generates a package that is a full release package (X.Y.Z) that is published to Github and NuGet automatically
 
 jobs:
-  build:
+  build_and_publish:
     uses: open-ephys/github-actions/.github/workflows/build_dotnet_publish_nuget.yml@main
     secrets:
       NUGET_APIKEY: ${{ secrets.NUGET_APIKEY }} # To add this secret so that it can be passed to the github-actions repo, navigate to the calling repository -> Settings -> Secrets and Variables -> Actions -> New repository secret -> Name: NUGET_APIKEY, Secret: paste the api key generated on NuGet with the proper permissions
