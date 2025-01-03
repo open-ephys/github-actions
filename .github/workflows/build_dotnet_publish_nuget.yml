@@ -16,7 +16,7 @@ env:
 
 jobs:
   setup:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     outputs:
       build-suffix: ${{ steps.setup-build.outputs.build-suffix }}
     steps:
@@ -25,7 +25,7 @@ jobs:
         run: echo "build-suffix=${{ github.event_name == 'push' && env.CiRunPushSuffix || github.event_name == 'pull_request' && env.CiRunPullSuffix || null }}" >> "$GITHUB_OUTPUT"
 
   check-semver:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     if: github.event_name != 'release'
     steps:
       - name: Checkout current version
@@ -82,7 +82,7 @@ jobs:
       fail-fast: false
       matrix:
         configuration: [debug, release]
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-22.04, windows-latest]
         include:
           - os: windows-latest
             configuration: release
@@ -119,7 +119,7 @@ jobs:
           path: artifacts/package/${{matrix.configuration}}/**
 
   publish-github:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     permissions:
       packages: write
     needs: [build]
@@ -144,7 +144,7 @@ jobs:
 
   deploy:
     name: Deploy Package
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [build]
     if: github.event_name == 'release' && always() && !failure() && !cancelled()
 
