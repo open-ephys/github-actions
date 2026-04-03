@@ -29,7 +29,7 @@ jobs:
     if: github.event_name != 'release'
     steps:
       - name: Checkout current version
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -41,7 +41,7 @@ jobs:
           echo "RELEASE_NAME=$(gh release list -L 1 --json tagName -q .[0].tagName)" >> $GITHUB_OUTPUT
           
       - name: Checkout last release version
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ steps.previous-release.outputs.RELEASE_NAME }}
           path: last-release
@@ -55,7 +55,7 @@ jobs:
           echo "CURRENT_VERSION=$(cat ./Directory.Build.props | grep -Po '(?<=VersionPrefix>).*(?=</VersionPrefix>)')" >> $GITHUB_OUTPUT
           echo "PREVIOUS_VERSION=$(cat ./last-release/Directory.Build.props | grep -Po '(?<=VersionPrefix>).*(?=</VersionPrefix>)')" >> $GITHUB_OUTPUT
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.10.12"
 
@@ -92,10 +92,10 @@ jobs:
       CiBuildVersionSuffix: ${{ needs.setup.outputs.build-suffix }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 8.x
       
@@ -111,7 +111,7 @@ jobs:
         run: dotnet pack --no-build --configuration ${{ matrix.configuration }}
 
       - name: Collect packages
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         if: matrix.collect-packages && steps.pack.outcome == 'success' && always()
         with:
           name: Packages
@@ -126,12 +126,12 @@ jobs:
     if: (github.event_name == 'push' || github.event_name == 'release') && always() && !failure() && !cancelled()
     steps:
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 8.x
 
       - name: Download packages
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: Packages
           path: Packages
@@ -150,12 +150,12 @@ jobs:
 
     steps:
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 8.x
 
       - name: Download packages
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: Packages
           path: Packages
